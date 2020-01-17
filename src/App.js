@@ -10,15 +10,27 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selected: [],
+      selected: null,
     }
   }
 
   addToCompare = (item) => {
     console.log("Item Added", item)
+    const {id:id, ...itemInfo}=item
+
     this.setState(prevState => ({
-      selected: [...prevState.selected, item]
+      selected: {
+        ...prevState.selected,
+        [id]: itemInfo
+      }
     }))
+  }
+
+  removeFromCompare = (item)=>{
+    const selected = Object.assign({}, this.state.selected);
+    const id = item.id;
+    delete selected[id];
+    this.setState({ selected });
   }
 
   render() {
@@ -30,7 +42,7 @@ class App extends React.Component {
             Best Buy App
         </Typography>
         </Box>
-        <ProductList data={products} selected={this.state.selected} addToCompare={this.addToCompare} />
+        <ProductList data={products} selected={this.state.selected} addToCompare={this.addToCompare} removeFromCompare={this.removeFromCompare}/>
       </Container>
     );
   }

@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProductList(props) {
     const classes = useStyles();
-    const selectedIndices = props.selected? props.selected.map(item => item.id):[]
+    // const selectedIndices = props.selected? props.selected.map(item => item.id):[]
 
     return (<Grid container className={classes.root} spacing={2}>
         <Grid item xs={12}>
@@ -20,11 +20,9 @@ export default function ProductList(props) {
                 {props.data.map(item =>
                     <Grid item>
                         {
-                            selectedIndices.indexOf(item.id) !== -1 ?
-                                <ProductCard added={true} data={item} addToCompare={() => { props.addToCompare(item) }} />
-
-                                :
-                                <ProductCard data={item} addToCompare={() => { props.addToCompare(item) }} />
+                            props.selected && props.selected[item.id]
+                                ? <ProductCard added={true} data={item} removeFromCompare={() => { props.removeFromCompare(item) }} addToCompare={() => { props.addToCompare(item) }} />
+                                : <ProductCard data={item} removeFromCompare={() => { props.removeFromCompare(item) }} addToCompare={() => { props.addToCompare(item) }} />
 
                         }
                     </Grid>)}

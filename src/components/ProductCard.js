@@ -10,6 +10,11 @@ const useStyles = makeStyles(theme => ({
         '&:hover $overlay': {
             opacity: 1,
         },
+        '&:hover $overlayText': {
+            opacity: 1,
+            // top: "50%",
+            // left: "50%",
+        },
     },
     media: {
         height: 250,
@@ -26,7 +31,7 @@ const useStyles = makeStyles(theme => ({
         opacity: 0,
         transition: 'all 0.4s ease-in-out 0s',
     },
-    overlaySelected:{
+    overlaySelected: {
         height: 250,
         background: '#40e6b985',
         position: 'absolute',
@@ -37,6 +42,21 @@ const useStyles = makeStyles(theme => ({
         right: 0,
         opacity: 1,
         transition: 'all 0.4s ease-in-out 0s',
+    },
+    overlayText: {
+        height: 250,
+        position: "absolute",
+        textAlign: "center",
+        paddingLeft: "1em",
+        paddingRight: "1em",
+        width: '100%',
+        left: 0,
+        top: 0,
+        bottom: 0,
+        right: 0,
+        opacity: 0,
+        // transform: "translate(-50%, -50%)",
+        transition: "all 0.3s ease-in-out 0s",
     },
     btnMargin: {
         margin: theme.spacing(1),
@@ -67,10 +87,18 @@ export default function ProductCard(props) {
                 image={props.data.image}
                 title={props.data.name}
             />
-            <Grid container justify="center" alignItems="center" className={props.added?classes.overlaySelected:classes.overlay}>
-                <ColorButton variant="contained" color="primary" className={classes.btnMargin} onClick={props.addToCompare}>
-                    Compare
-      </ColorButton>
+            <Grid container justify="center" alignItems="center" className={props.added ? classes.overlaySelected : classes.overlay}>
+            </Grid>
+            <Grid container justify="center" alignItems="center" className={classes.overlayText}>
+                {props.added ?
+                    <ColorButton variant="contained" color="primary" className={classes.btnMargin} onClick={props.removeFromCompare}>
+                        Remove
+  </ColorButton>
+                    :
+                    <ColorButton variant="contained" color="primary" className={classes.btnMargin} onClick={props.addToCompare}>
+                        Compare
+  </ColorButton>
+                }
             </Grid>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">

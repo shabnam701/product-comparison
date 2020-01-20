@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/product-comparison/static/css/main.afe5439b.chunk.css",
+    "main.js": "/product-comparison/static/js/main.72351308.chunk.js",
+    "main.js.map": "/product-comparison/static/js/main.72351308.chunk.js.map",
+    "runtime-main.js": "/product-comparison/static/js/runtime-main.ed944f88.js",
+    "runtime-main.js.map": "/product-comparison/static/js/runtime-main.ed944f88.js.map",
+    "static/js/2.b75fc977.chunk.js": "/product-comparison/static/js/2.b75fc977.chunk.js",
+    "static/js/2.b75fc977.chunk.js.map": "/product-comparison/static/js/2.b75fc977.chunk.js.map",
+    "index.html": "/product-comparison/index.html",
+    "precache-manifest.e964c8459a68f55563671bfa4ddf8e9d.js": "/product-comparison/precache-manifest.e964c8459a68f55563671bfa4ddf8e9d.js",
+    "service-worker.js": "/product-comparison/service-worker.js",
+    "static/css/main.afe5439b.chunk.css.map": "/product-comparison/static/css/main.afe5439b.chunk.css.map",
+    "static/js/2.b75fc977.chunk.js.LICENSE": "/product-comparison/static/js/2.b75fc977.chunk.js.LICENSE",
+    "static/media/logo.svg": "/product-comparison/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ed944f88.js",
+    "static/js/2.b75fc977.chunk.js",
+    "static/css/main.afe5439b.chunk.css",
+    "static/js/main.72351308.chunk.js"
+  ]
+}

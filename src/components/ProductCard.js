@@ -5,19 +5,19 @@ import { Grid, Card, CardContent, CardMedia, Button, Typography } from '@materia
 
 const useStyles = makeStyles(theme => ({
     card: {
-        minWidth: 250,
+        minWidth: 210,
+        maxWidth: 210,
         position: 'relative',
         '&:hover $overlay': {
             opacity: 1,
         },
         '&:hover $overlayText': {
-            opacity: 1,
-            // top: "50%",
-            // left: "50%",
+            opacity: 1
         },
     },
     media: {
         height: 250,
+        backgroundSize: "contain"
     },
     overlay: {
         height: 250,
@@ -61,6 +61,10 @@ const useStyles = makeStyles(theme => ({
     btnMargin: {
         margin: theme.spacing(1),
     },
+    title:{
+        fontWeight:"bold",
+        fontSize:"1rem"
+    }
 }));
 
 const ColorButton = withStyles(theme => ({
@@ -101,12 +105,15 @@ export default function ProductCard(props) {
                 }
             </Grid>
             <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Grid justify="center">
+                <Typography gutterBottom variant="h6" component="h6" className={classes.title}>
                     {props.data.name}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
                     {props.data.price}
                 </Typography>
+                </Grid>
+
             </CardContent>
         </Card>
     );

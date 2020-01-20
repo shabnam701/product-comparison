@@ -6,6 +6,7 @@ import ProductCard from './ProductCard';
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
+        marginBottom:10
     },
 }));
 
@@ -14,19 +15,15 @@ export default function ProductList(props) {
     const classes = useStyles();
     // const selectedIndices = props.selected? props.selected.map(item => item.id):[]
 
-    return (<Grid container className={classes.root} spacing={2}>
-        <Grid item xs={12}>
-            <Grid container justify="center" spacing={2}>
-                {props.data.map(item =>
-                    <Grid item>
-                        {
-                            props.selected && props.selected[item.id]
-                                ? <ProductCard added={true} data={item} removeFromCompare={() => { props.removeFromCompare(item) }} addToCompare={() => { props.addToCompare(item) }} />
-                                : <ProductCard data={item} removeFromCompare={() => { props.removeFromCompare(item) }} addToCompare={() => { props.addToCompare(item) }} />
-
-                        }
-                    </Grid>)}
-            </Grid>
+    return (<Grid container className={classes.root}>
+        <Grid container justify="center" spacing={2}>
+            {props.data.map((item,idx) =>
+                <Grid key={idx} item>
+                    {props.selected && props.selected.find(sel=>sel.id===item.id)!==undefined
+                        ? <ProductCard added={true} data={item} removeFromCompare={() => { props.removeFromCompare(item) }} addToCompare={() => { props.addToCompare(item) }} />
+                        : <ProductCard data={item} removeFromCompare={() => { props.removeFromCompare(item) }} addToCompare={() => { props.addToCompare(item) }} />
+                    }
+                </Grid>)}
         </Grid>
     </Grid>)
 }

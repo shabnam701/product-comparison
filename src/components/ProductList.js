@@ -13,7 +13,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProductList(props) {
     const classes = useStyles();
-    // const selectedIndices = props.selected? props.selected.map(item => item.id):[]
 
     return (<Grid container className={classes.root}>
         <Grid container justify="center" spacing={2}>

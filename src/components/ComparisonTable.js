@@ -1,30 +1,63 @@
 import React from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
+import { Grid, Table, TableBody, TableCell, Typography, TableContainer, TableHead, TableRow, Paper, List, ListItem, ListItemText } from '@material-ui/core';
 
 
 const useStyles = makeStyles(theme => ({
     table: {
         minWidth: 700,
     },
+    columnHeader: {
+        fontWeight: "bold",
+        textTransform: "capitalize"
+    },
+    listStyle: {
+        width: '100%',
+        maxWidth: 360,
+    },
+    listItemStyle: {
+        textAlign: "right"
+    },
+    priceLabel: {
+        color: "green"
+    },
+    textLabel: {
+        textTransform: "capitalize"
+    },
+    colorLabel: {
+        height: 20,
+        width: 20,
+        margin: 1
+    },
+    colorContainer: {
+        display: 'flex'
+    }
 }));
 
+export function CustomAttributeLabel(props) {
+    const classes = useStyles();
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
+    return (<Typography className={classes.textLabel} variant="subtitle2" gutterBottom>
+        {props.children}
+    </Typography>)
 }
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+export function CustomColorLabel(props) {
+    const classes = useStyles();
+
+    return (<Grid component="div" className={classes.colorLabel} style={{ backgroundColor: props.backgroundColor }} />)
+}
+
+export function CustomPriceLabel(props) {
+    const classes = useStyles();
+
+    return (<Typography className={classes.priceLabel} variant="subtitle2">
+        {props.children}
+    </Typography>)
+}
 
 export default function ComparisonTable(props) {
     const classes = useStyles();
-    // const selectedIndices = props.selected? props.selected.map(item => item.id):[]
 
     return (<TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
@@ -33,35 +66,39 @@ export default function ComparisonTable(props) {
                     <TableCell></TableCell>
                     {
                         props.data && props.data.map(item =>
-                            <TableCell align="right">{item.name}</TableCell>
-
-                        )
+                            <TableCell className={classes.columnHeader} align="right">{item.name}</TableCell>)
                     }
-
                 </TableRow>
             </TableHead>
             <TableBody>
-                {/* <TableRow key={"attributes"}>
-                    {props.filters && props.filters.map(filter =>
-                        <TableCell align="right">{filter}</TableCell>
-                    )}
-                </TableRow> */}
-                {/* {props.data.map(row => { */}
                 {props.filters && props.filters.map(filter =>
                     <TableRow key={filter}>
                         <TableCell component="th" scope="row">
-                            {filter}
+                            <CustomAttributeLabel>{filter}</CustomAttributeLabel>
                         </TableCell>
                         {props.data.map(row =>
                             <TableCell align="right">
-                                {row[filter]}
+                                {(filter === "price" ?
+                                    <CustomPriceLabel>{row[filter]}</CustomPriceLabel>
+                                    : filter === "colors" ?
+                                        <Grid className={classes.colorContainer} justify="flex-end" alignItems="center">{row[filter].map((item, idx) => <CustomColorLabel backgroundColor={item} />)}</Grid>
+                                        : (row[filter] instanceof Array) ?
+                                            <List dense className={classes.listStyle}>
+                                                {row[filter].map((item, idx) => {
+                                                    const labelId = `checkbox-list-secondary-label-${item}`;
+                                                    let labelText = `${idx + 1}. ${item}`
+                                                    return (
+                                                        <ListItem key={item} >
+                                                            <ListItemText className={classes.listItemStyle} disableTypography={true} id={labelId} primary={labelText} />
+                                                        </ListItem>
+                                                    );
+                                                })}
+                                            </List>
+                                            : row[filter])}
                             </TableCell>
                         )}
                     </TableRow>
-
-                )
-                }
-                {/* )} */}
+                )}
             </TableBody>
         </Table>
     </TableContainer>)

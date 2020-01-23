@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Grid, Card, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
-// import { white } from '@material-ui/core/colors';
+import {CustomPriceLabel} from './ComparisonTable'
 
 const useStyles = makeStyles(theme => ({
     card: {
@@ -61,9 +61,9 @@ const useStyles = makeStyles(theme => ({
     btnMargin: {
         margin: theme.spacing(1),
     },
-    title:{
-        fontWeight:"bold",
-        fontSize:"1rem"
+    title: {
+        fontWeight: "bold",
+        fontSize: "1rem"
     }
 }));
 
@@ -97,23 +97,21 @@ export default function ProductCard(props) {
                 {props.added ?
                     <ColorButton variant="contained" color="primary" className={classes.btnMargin} onClick={props.removeFromCompare}>
                         Remove
-  </ColorButton>
-                    :
-                    <ColorButton variant="contained" color="primary" className={classes.btnMargin} onClick={props.addToCompare}>
+                    </ColorButton>
+                    : <ColorButton variant="contained" color="primary" className={classes.btnMargin} onClick={props.addToCompare}>
                         Compare
-  </ColorButton>
+                    </ColorButton>
                 }
             </Grid>
             <CardContent>
-                <Grid justify="center">
-                <Typography gutterBottom variant="h6" component="h6" className={classes.title}>
-                    {props.data.name}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {props.data.price}
-                </Typography>
+                <Grid container justify="space-between" alignItems="center">
+                    <Typography variant="h6" component="h6" className={classes.title}>
+                        {props.data.name}
+                    </Typography>
+                    <CustomPriceLabel>
+                        {props.data.price}
+                    </CustomPriceLabel>
                 </Grid>
-
             </CardContent>
         </Card>
     );

@@ -1,14 +1,13 @@
 import React from 'react';
+import { Button, Grid, Box, Modal, FormControl, FormLabel, FormGroup, FormControlLabel, FormHelperText, Checkbox, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Modal, FormControl, FormLabel, FormGroup, FormControlLabel, FormHelperText, Checkbox } from '@material-ui/core';
-
-function rand() {
-    return Math.round(Math.random() * 20) - 10;
-}
+import Icon from '@material-ui/core/Icon';
+import EditIcon from '@material-ui/icons/Edit';
+import {CustomAttributeLabel} from './ComparisonTable'
 
 function getModalStyle() {
-    const top = 50 + rand();
-    const left = 50 + rand();
+    const top = 50;
+    const left = 50;
 
     return {
         top: `${top}%`,
@@ -21,6 +20,9 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
     },
+    button: {
+        margin: theme.spacing(1),
+    },
     formControl: {
         margin: theme.spacing(3),
     },
@@ -28,26 +30,21 @@ const useStyles = makeStyles(theme => ({
         position: 'absolute',
         width: 400,
         backgroundColor: theme.palette.background.paper,
-        // border: '2px solid #000',
-        // boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
     },
 }));
 
+
 export default function AttributeFilter(props) {
-    console.log("props", props)
     const classes = useStyles();
+
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = React.useState(getModalStyle);
     const [state, setState] = React.useState({
         open: false,
-        selectedFilters: {},
-        gilad: false,
-        jason: false,
-        antoine: false
+        selectedFilters: {}
 
     });
-    console.log("init state", state)
 
     const handleOpen = () => {
         setState({ ...state, open: true });
@@ -60,6 +57,7 @@ export default function AttributeFilter(props) {
     const handleSubmit = () => {
         let selected = Object.keys(state.selectedFilters).filter(it => state.selectedFilters[it] === true)
         props.save(selected)
+        handleClose()
     }
 
     React.useEffect(() => {
@@ -69,50 +67,59 @@ export default function AttributeFilter(props) {
                 return result;
             }, {})
         });
-
-        console.log("state", state)
     }, [props.selected])
 
     const handleChange = name => event => {
         setState({ ...state, selectedFilters: { ...state.selectedFilters, [name]: event.target.checked } });
     };
 
-    const { gilad, jason, antoine, selectedFilters } = state;
-    const error = [gilad, jason, antoine].filter(v => v).length !== 2;
-
     return (
-        <div>
-            <button type="button" onClick={handleOpen}>
+        <React.Fragment>
+            <Button variant="outlined" color="primary" className={classes.button}
+                startIcon={<EditIcon />} onClick={handleOpen}>
                 Add/Remove Attributes
-      </button>
+            </Button>
             <Modal
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
                 open={state.open}
                 onClose={handleClose}
             >
-                <div style={modalStyle} className={classes.paper}>
+                <Grid style={modalStyle} className={classes.paper}>
                     <FormControl component="fieldset" className={classes.formControl}>
-                        <FormLabel component="legend">Assign responsibility</FormLabel>
+                        <Box my={1}>
+                            <FormLabel component="legend">Select attributes for comparison</FormLabel>
+                        </Box>
                         <FormGroup>
                             {props.data.map(filter => <FormControlLabel
                                 control={<Checkbox checked={state.selectedFilters && state.selectedFilters[filter] ? state.selectedFilters[filter] : false} onChange={handleChange(filter)} value={filter} />}
-                                label={filter}
+                                label={<CustomAttributeLabel>{filter}</CustomAttributeLabel>}
                             />)}
-
-
                         </FormGroup>
-                        <FormHelperText>Be careful</FormHelperText>
                     </FormControl>
-                    <button type="button" onClick={handleClose}>
-                        Close
-      </button>
-                    <button type="button" onClick={handleSubmit}>
-                        Apply
-      </button>
-                </div>
+                    <Box my={1}>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-end"
+                            alignItems="center"
+                            spacing={1}
+                        >
+                            <Grid item>
+                                <Button variant="contained" color="primary" onClick={handleSubmit}>
+                                    Apply
+                            </Button>
+                            </Grid>
+                            <Grid item>
+                                <Button variant="contained" onClick={handleClose}>
+                                    Close
+                            </Button>
+                            </Grid>
 
+                        </Grid>
+                    </Box>
+                </Grid>
             </Modal>
-        </div>
+        </React.Fragment>
     );
 }

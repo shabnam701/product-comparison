@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+CSS Framework [Material UI](https://material-ui.com)
+
 ## Demo
 Checkout the [Demo](https://shabnam701.github.io/product-comparison)
 
